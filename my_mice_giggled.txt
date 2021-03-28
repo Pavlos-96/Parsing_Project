@@ -1,0 +1,24 @@
+Internal grammar representation:
+ {'S': [['VP', 'NP']], 'NP': [['N', 'Det']], 'VP': [['V']], 'Det': [['my'], ['the'], ['an'], ['most']], 'N': [['mice'], ['elephant'], ['elephants'], ['mouse']], 'V': [['giggled'], ['sneezed'], ['trumpeted']]}
+Type sentence: my mice giggled
+parsing  ['my', 'mice', 'giggled'] ...
+           ['S']                                                  ['my', 'mice', 'giggled']
+ >expand:    S     -R->     ['VP', 'NP']
+           ['VP', 'NP']                                           ['my', 'mice', 'giggled']
+ >expand:    NP     -R->     ['N', 'Det']
+           ['VP', 'N', 'Det']                                     ['my', 'mice', 'giggled']
+ >expand:    Det     -R->     ['my']
+           ['VP', 'N', 'my']                                      ['my', 'mice', 'giggled']
+ >match:    my     -R->     my
+           ['VP', 'N']                                                  ['mice', 'giggled']
+ >expand:    N     -R->     ['mice']
+           ['VP', 'mice']                                               ['mice', 'giggled']
+ >match:    mice     -R->     mice
+           ['VP']                                                               ['giggled']
+ >expand:    VP     -R->     ['V']
+           ['V']                                                                ['giggled']
+ >expand:    V     -R->     ['giggled']
+           ['giggled']                                                          ['giggled']
+ >match:    giggled     -R->     giggled
+           []                                                                            []
+success!

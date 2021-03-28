@@ -1,0 +1,24 @@
+Internal grammar representation:
+ {'S': [['VP', 'NP']], 'NP': [['N', 'Det']], 'VP': [['V']], 'Det': [['the'], ['an'], ['my'], ['most']], 'N': [['elephant'], ['elephants'], ['mouse'], ['mice']], 'V': [['sneezed'], ['giggled'], ['trumpeted']]}
+Type sentence: the elephant sneezed
+parsing  ['the', 'elephant', 'sneezed'] ...
+           ['S']                                             ['the', 'elephant', 'sneezed']
+ >expand:    S     -R->     ['VP', 'NP']
+           ['VP', 'NP']                                      ['the', 'elephant', 'sneezed']
+ >expand:    NP     -R->     ['N', 'Det']
+           ['VP', 'N', 'Det']                                ['the', 'elephant', 'sneezed']
+ >expand:    Det     -R->     ['the']
+           ['VP', 'N', 'the']                                ['the', 'elephant', 'sneezed']
+ >match:    the     -R->     the
+           ['VP', 'N']                                              ['elephant', 'sneezed']
+ >expand:    N     -R->     ['elephant']
+           ['VP', 'elephant']                                       ['elephant', 'sneezed']
+ >match:    elephant     -R->     elephant
+           ['VP']                                                               ['sneezed']
+ >expand:    VP     -R->     ['V']
+           ['V']                                                                ['sneezed']
+ >expand:    V     -R->     ['sneezed']
+           ['sneezed']                                                          ['sneezed']
+ >match:    sneezed     -R->     sneezed
+           []                                                                            []
+success!
